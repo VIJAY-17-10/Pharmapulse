@@ -12,7 +12,10 @@ import {
   TrendPoint
 } from '../types';
 
-const API_BASE = '/api';
+const RAW_URL = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '').trim();
+const API_BASE = RAW_URL
+  ? (RAW_URL.replace(/\/+$/, '').endsWith('/api') ? RAW_URL.replace(/\/+$/, '') : `${RAW_URL.replace(/\/+$/, '')}/api`)
+  : (import.meta.env.PROD ? 'https://pharmapulse-backend-4rvi.onrender.com/api' : '/api');
 
 function getAuthHeader(): Record<string, string> {
   const token = localStorage.getItem('pharmapulse_token');
